@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://unpkg.com/@esotericsoftware/spine-player@4.2.*/dist/spine-player.css">
 
     <style>
-        body { margin: 0; background: #111; font-family: Arial, sans-serif; color: #eee;
+        body { margin: 0; background: #ffffff; font-family: Arial, sans-serif; color: #eee;
                display: flex; flex-direction: column; height: 100vh; }
         header { padding: 12px; background: #1a1a1a; border-bottom: 1px solid #333;
                  display: flex; align-items: center; gap: 20px; }
@@ -16,7 +16,7 @@
                  border: 1px solid #444; border-radius: 4px; }
         #player-container { flex: 1; display: flex; justify-content: center; align-items: center; }
         #player { width: 70%; height: 70%; min-width: 350px; min-height: 350px;
-                  background: #000; border: 1px solid #222; border-radius: 6px; }
+                  background: #666666; border: 1px solid #222; border-radius: 6px; }
     </style>
 </head>
 
@@ -51,6 +51,8 @@
 
     let spinePlayer = null;
 
+    const SKIN_NAME = "skin/combat";
+
     function loadCharacter(name) {
         const data = characters[name];
         if (!data) return;
@@ -61,8 +63,16 @@
             jsonUrl: data.json,
             atlasUrl: data.atlas,
             showControls: true,
-            backgroundColor: "#000000",
+            backgroundColor: "#666666",
             success: function (player) {
+                const skeletonData = player?.animationState?.data?.skeletonData;
+                const availableSkin = skeletonData?.skins?.[0];
+                const preferredSkin = [SKIN_NAME, "skin/battle", "default"].find(name =>
+                    skeletonData?.skins?.some(skin => skin.name === name)
+                ) || availableSkin?.name;
+
+                if (preferredSkin) player.setSkin(preferredSkin);
+
                 updateAnimationList(player);
             }
         });
