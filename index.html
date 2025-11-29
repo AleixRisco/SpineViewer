@@ -112,19 +112,28 @@
             showControls: true,
             backgroundColor: "#666666",
 
+            skin: "skin/battle",
+            animation: "walk",
+
+
             success: function (player) {
 
-                // Aplicar skin si existe
-                if (char.skin) {
-                    try {
-                        player.skeleton.setSkinByName(char.skin);
-                        player.skeleton.setSlotsToSetupPose();
-                    } catch (e) {
-                        console.error("No se pudo aplicar la skin:", char.skin);
-                    }
-                }
-            }
-        });
+                // SKIN
+        try {
+            player.skeleton.setSkinByName("skin/battle");
+            player.skeleton.setSlotsToSetupPose();
+        } catch (e) {
+            console.error("Skin no encontrada:", e);
+        }
+
+        // ANIMACIÓN
+        try {
+            player.setAnimation("walk", true); 
+        } catch (e) {
+            console.error("Animación no encontrada:", e);
+        }
+    }
+});
     }
 
     // Cargar personaje al hacer clic en el lateral
