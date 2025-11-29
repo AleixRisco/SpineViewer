@@ -1,171 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <title>Spine Character Viewer</title>
+    <meta charset="utf-8">
+    <title>Spine Characters Viewer</title>
 
-    <!-- Spine Player desde CDN -->
+    <!-- Spine Player -->
     <script src="https://unpkg.com/@esotericsoftware/spine-player@4.2.*/dist/iife/spine-player.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/@esotericsoftware/spine-player@4.2.*/dist/spine-player.css">
 
     <style>
         body {
             margin: 0;
-            background: #ffffff; /* FONDO BLANCO */
-            font-family: Arial, sans-serif;
-            color: #111;
             display: flex;
-            flex-direction: column;
             height: 100vh;
-        }
-
-        header {
-            padding: 12px;
-            background: #ececec;
-            border-bottom: 1px solid #ccc;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        select {
-            padding: 6px 10px;
-            font-size: 15px;
+            font-family: Arial, sans-serif;
             background: #fff;
-            color: #111;
-            border: 1px solid #aaa;
-            border-radius: 100px;
         }
 
-        #player-container {
+        /* Sidebar izquierda */
+        #sidebar {
+            width: 260px;
+            background: #f5f5f5;
+            border-right: 1px solid #ccc;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        #sidebar h2 {
+            margin-top: 0;
+            font-size: 20px;
+        }
+
+        .character-btn {
+            display: block;
+            padding: 10px;
+            margin-bottom: 8px;
+            background: #e3e3e3;
+            border-radius: 4px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+        }
+
+        .character-btn:hover {
+            background: #d2d2d2;
+        }
+
+        /* Zona principal */
+        #viewer-area {
             flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
+            background: #ffffff;
         }
 
         #player {
-            width: 70%;
-            height: 70%;
+            width: 60%;
+            height: 60%;
             min-width: 350px;
             min-height: 350px;
-            background: #666666; /* FONDO DEL VISOR */
-            border: 1px solid #444;
-            border-radius: 100px;
-        }
-
-        #errorBox {
-            position: fixed;
-            left: 12px;
-            bottom: 12px;
-            background: #b00020;
-            color: #fff;
-            padding: 8px 12px;
-            border-radius: 4px;
-            font-size: 13px;
-            max-width: 50%;
-            display: none;
-            z-index: 10;
+            background: #666666;
+            border-radius: 8px;
         }
     </style>
 </head>
 
 <body>
 
-<header>
-    <div>
-        <label>Personaje: </label>
-        <select id="characterSelect">
-            <option value="ranged_blue">Ranged Blue</option>
-            <option value="tank_blue">Tank Blue</option>
-        </select>
+    <!-- SIDEBAR -->
+    <div id="sidebar">
+        <h2>Personajes</h2>
+
+        <!-- Lista de personajes -->
+        <div class="character-btn" data-id="ranged_blue">Ranged Blue</div>
+        <div class="character-btn" data-id="tank_blue">Tank Blue</div>
     </div>
 
-    <div>
-        <label>Animación: </label>
-        <select id="animationSelect"></select>
+    <!-- VISOR -->
+    <div id="viewer-area">
+        <div id="player"></div>
     </div>
-</header>
-
-<div id="player-container">
-    <div id="player"></div>
-</div>
-
-<div id="errorBox"></div>
 
 <script>
-    const errorBox = document.getElementById("errorBox");
-    function showError(msg) {
-        console.error(msg);
-        errorBox.textContent = msg;
-        errorBox.style.display = "block";
-    }
 
+    /* Lista de personajes */
     const characters = {
         "ranged_blue": {
             json: "assets/ranged_blue/Ranged_Blue_Combat_1.json",
-            atlas: "assets/ranged_blue/Ranged_Blue_Combat_1.atlas"
+            atlas: "assets/ranged_blue/Ranged_Blue_Combat_1.atlas",
+            skin: "default"
         },
+
         "tank_blue": {
             json: "assets/tank_blue/Tank_Blue_Combat_1.json",
-            atlas: "assets/tank_blue/Tank_Blue_Combat_1.atlas"
+            atlas: "assets/tank_blue/Tank_Blue_Combat_1.atlas",
+            skin: "default"
         }
     };
 
     let spinePlayer = null;
 
-    function loadCharacter(name) {
-        const data = characters[name];
-        if (!data) return;
-
-        errorBox.style.display = "none";
+    function loadCharacter(id) {
+        const char = characters[id];
+        if (!char) return;
 
         if (spinePlayer) spinePlayer.dispose();
 
         spinePlayer = new spine.SpinePlayer("player", {
-            jsonUrl: data.json,
-            atlasUrl: data.atlas,
+            jsonUrl: char.json,
+            atlasUrl: char.atlas,
             showControls: true,
             backgroundColor: "#666666",
 
-
-
             success: function (player) {
-                updateAnimationList(player);
-            },
-            error: function (player, err) {
-                showError("Error cargando Spine: " + err);
+
+                // Aplicar skin si existe
+                if (char.skin) {
+                    try {
+                        player.skeleton.setSkinByName(char.skin);
+                        player.skeleton.setSlotsToSetupPose();
+                    } catch (e) {
+                        console.error("No se pudo aplicar la skin:", char.skin);
+                    }
+                }
             }
         });
     }
 
-    function updateAnimationList(player) {
-        const animSelect = document.getElementById("animationSelect");
-        animSelect.innerHTML = "";
-
-        const animList = player.animationState.data.skeletonData.animations;
-
-        animList.forEach(anim => {
-            const opt = document.createElement("option");
-            opt.value = anim.name;
-            opt.innerText = anim.name;
-            animSelect.appendChild(opt);
+    // Cargar personaje al hacer clic en el lateral
+    document.querySelectorAll(".character-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+            const id = btn.getAttribute("data-id");
+            loadCharacter(id);
         });
-
-        if (animList.length > 0) {
-            spinePlayer.setAnimation(animList[0].name, true);
-        }
-    }
-
-    document.getElementById("characterSelect").addEventListener("change", (e) => {
-        loadCharacter(e.target.value);
     });
 
-    document.getElementById("animationSelect").addEventListener("change", (e) => {
-        if (spinePlayer) spinePlayer.setAnimation(e.target.value, true);
-    });
-
+    // Cargar el primer personaje por defecto
     loadCharacter("ranged_blue");
+
 </script>
 
 </body>
