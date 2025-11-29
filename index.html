@@ -4,19 +4,70 @@
     <meta charset="utf-8" />
     <title>Spine Character Viewer</title>
 
-    <script src="https://unpkg.com/@esotericsoftware/spine-player@4.2.*/dist/iife/spine-player.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/@esotericsoftware/spine-player@4.2.*/dist/spine-player.css">
+    <!-- SPINE PLAYER (compatible con Spine 4.3) -->
+    <script src="https://unpkg.com/@esotericsoftware/spine-player@4.3.*/dist/iife/spine-player.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/@esotericsoftware/spine-player@4.3.*/dist/spine-player.css">
 
     <style>
-        body { margin: 0; background: #ffffff; font-family: Arial, sans-serif; color: #eee;
-               display: flex; flex-direction: column; height: 100vh; }
-        header { padding: 12px; background: #1a1a1a; border-bottom: 1px solid #333;
-                 display: flex; align-items: center; gap: 20px; }
-        select { padding: 6px 10px; font-size: 15px; background: #222; color: #eee;
-                 border: 1px solid #444; border-radius: 4px; }
-        #player-container { flex: 1; display: flex; justify-content: center; align-items: center; }
-        #player { width: 70%; height: 70%; min-width: 350px; min-height: 350px;
-                  background: #000; border: 1px solid #222; border-radius: 6px; }
+        body {
+            margin: 0;
+            background: #ffffff; /* Fondo blanco del navegador */
+            font-family: Arial, sans-serif;
+            color: #111;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        header {
+            padding: 12px;
+            background: #eeeeee;
+            border-bottom: 1px solid #cccccc;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        select {
+            padding: 6px 10px;
+            font-size: 15px;
+            background: #f2f2f2;
+            color: #111;
+            border: 1px solid #bbb;
+            border-radius: 4px;
+        }
+
+        #player-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #ffffff;
+        }
+
+        #player {
+            width: 70%;
+            height: 70%;
+            min-width: 350px;
+            min-height: 350px;
+            background: #666666; /* Fondo del visor */
+            border: 1px solid #444;
+            border-radius: 6px;
+        }
+
+        /* Cuadro de error */
+        #errorBox {
+            position: fixed;
+            left: 12px;
+            bottom: 12px;
+            background: #b00020;
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 13px;
+            max-width: 50%;
+            display: none;
+        }
     </style>
 </head>
 
@@ -40,7 +91,14 @@
     <div id="player"></div>
 </div>
 
+<div id="errorBox"></div>
+
 <script>
+    const errorBox = document.getElementById("errorBox");
+    function showError(msg) {
+        errorBox.textContent = msg;
+        errorBox.style.display = "block";
+    }
 
     const characters = {
         "ranged_blue": {
@@ -55,48 +113,8 @@
         const data = characters[name];
         if (!data) return;
 
+        errorBox.style.display = "none";
+
         if (spinePlayer) spinePlayer.dispose();
 
-        spinePlayer = new spine.SpinePlayer("player", {
-            jsonUrl: data.json,
-            atlasUrl: data.atlas,
-            showControls: true,
-            backgroundColor: "#666666",
-            success: function (player) {
-                updateAnimationList(player);
-            }
-        });
-    }
-
-    function updateAnimationList(player) {
-        const animSelect = document.getElementById("animationSelect");
-        animSelect.innerHTML = "";
-
-        const animList = player.animationState.data.skeletonData.animations;
-
-        animList.forEach(anim => {
-            const opt = document.createElement("option");
-            opt.value = anim.name;
-            opt.innerText = anim.name;
-            animSelect.appendChild(opt);
-        });
-
-        if (animList.length > 0) {
-            spinePlayer.setAnimation(animList[0].name, true);
-        }
-    }
-
-    document.getElementById("characterSelect").addEventListener("change", (e) => {
-        loadCharacter(e.target.value);
-    });
-
-    document.getElementById("animationSelect").addEventListener("change", (e) => {
-        if (spinePlayer) spinePlayer.setAnimation(e.target.value, true);
-    });
-
-    loadCharacter("ranged_blue");
-
-</script>
-
-</body>
-</html>
+        spinePlayer =
