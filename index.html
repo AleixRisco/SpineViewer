@@ -121,7 +121,12 @@
             jsonUrl: data.json,
             atlasUrl: data.atlas,
             showControls: true,
-            backgroundColor: "#666666", // FONDO DEL VISOR
+            backgroundColor: "#666666",
+
+            animation: "Idle" 
+            skins: ["skin/battle"],
+
+
             success: function (player) {
                 updateAnimationList(player);
             },
