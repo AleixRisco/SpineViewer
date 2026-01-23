@@ -31,6 +31,18 @@
             font-size: 20px;
         }
 
+        .sidebar-section + .sidebar-section {
+            margin-top: 18px;
+        }
+
+        .sidebar-section-title {
+            margin: 0 0 10px;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: #555;
+        }
+
         .character-btn {
             display: block;
             padding: 10px;
@@ -71,10 +83,16 @@
     <div id="sidebar">
         <h2>Personajes</h2>
 
-        <!-- Lista de personajes -->
-        <div class="character-btn" data-id="ranged_blue">Ranged Blue</div>
-        <div class="character-btn" data-id="tank_blue">Tank Blue</div>
-        <div class="character-btn" data-id="denis">Denis</div>
+        <div class="sidebar-section">
+            <h3 class="sidebar-section-title">Minions</h3>
+            <div class="character-btn" data-id="ranged_blue">Ranged Blue</div>
+            <div class="character-btn" data-id="tank_blue">Tank Blue</div>
+        </div>
+
+        <div class="sidebar-section">
+            <h3 class="sidebar-section-title">Pirates</h3>
+            <div class="character-btn" data-id="denis">Denis</div>
+        </div>
     </div>
 
     <!-- VISOR -->
