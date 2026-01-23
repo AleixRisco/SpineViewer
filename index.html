@@ -84,14 +84,34 @@
         <h2>Personajes</h2>
 
         <div class="sidebar-section">
+            <h3 class="sidebar-section-title">Monsters: Beach</h3>
+            <div class="character-btn" data-id="tank_beach">Tank Beach</div>
+            <div class="character-btn" data-id="melee_beach">Melee Beach</div>
+            <div class="character-btn" data-id="ranged_beach">Ranged Beach</div>
+            <div class="character-btn" data-id="boss_beach">Boss Beach</div>
+        </div>
+
+        <div class="sidebar-section">
             <h3 class="sidebar-section-title">Minions</h3>
-            <div class="character-btn" data-id="ranged_blue">Ranged Blue</div>
             <div class="character-btn" data-id="tank_blue">Tank Blue</div>
+            <div class="character-btn" data-id="melee_blue">Melee Blue</div>
+            <div class="character-btn" data-id="ranged_blue">Ranged Blue</div>
+            <div class="character-btn" data-id="tank_red">Tank Red</div>
+            <div class="character-btn" data-id="melee_red">Melee Red</div>
+            <div class="character-btn" data-id="ranged_red">Ranged Red</div>
+            <div class="character-btn" data-id="tank_green">Tank Green</div>
+            <div class="character-btn" data-id="melee_green">Melee Green</div>
+            <div class="character-btn" data-id="ranged_green">Ranged Green</div>
         </div>
 
         <div class="sidebar-section">
             <h3 class="sidebar-section-title">Pirates</h3>
             <div class="character-btn" data-id="denis">Denis</div>
+            <div class="character-btn" data-id="helena">Helena</div>
+            <div class="character-btn" data-id="beatrice">Beatrice</div>
+            <div class="character-btn" data-id="margaret">Margaret</div>
+            <div class="character-btn" data-id="florence">Florence</div>
+            <div class="character-btn" data-id="mary">Mary</div>
         </div>
     </div>
 
@@ -104,23 +124,104 @@
 
     /* Lista de personajes */
     const characters = {
-        "ranged_blue": {
-            json: "assets/ranged_blue/Ranged_Blue_Combat_1.json",
-            atlas: "assets/ranged_blue/Ranged_Blue_Combat_1.atlas",
-            skin: "default"
-        },
-
         "tank_blue": {
             json: "assets/tank_blue/Tank_Blue_Combat_1.json",
             atlas: "assets/tank_blue/Tank_Blue_Combat_1.atlas",
             skin: "default"
         },
-     
+        "melee_blue": {
+            json: "assets/melee_blue/Melee_Blue_Combat_1.json",
+            atlas: "assets/melee_blue/Melee_Blue_Combat_1.atlas",
+            skin: "default"
+        },
+        "ranged_blue": {
+            json: "assets/ranged_blue/Ranged_Blue_Combat_1.json",
+            atlas: "assets/ranged_blue/Ranged_Blue_Combat_1.atlas",
+            skin: "default"
+        },
+        "tank_red": {
+            json: "assets/tank_red/Tank_Red_Combat_1.json",
+            atlas: "assets/tank_red/Tank_Red_Combat_1.atlas",
+            skin: "default"
+        },
+        "melee_red": {
+            json: "assets/melee_red/Melee_Red_Combat_1.json",
+            atlas: "assets/melee_red/Melee_Red_Combat_1.atlas",
+            skin: "default"
+        },
+        "ranged_red": {
+            json: "assets/ranged_red/Ranged_Red_Combat_1.json",
+            atlas: "assets/ranged_red/Ranged_Red_Combat_1.atlas",
+            skin: "default"
+        },
+        "tank_green": {
+            json: "assets/green_green/Tank_Green_Combat_1.json",
+            atlas: "assets/green_green/Tank_Green_Combat_1.atlas",
+            skin: "default"
+        },
+        "melee_green": {
+            json: "assets/melee_green/Melee_Green_Combat_1.json",
+            atlas: "assets/melee_green/Melee_Green_Combat_1.atlas",
+            skin: "default"
+        },
+        "ranged_green": {
+            json: "assets/ranged_green/Ranged_Green_Combat_1.json",
+            atlas: "assets/ranged_green/Ranged_Green_Combat_1.atlas",
+            skin: "default"
+        },
+
+        "tank_beach": {
+            json: "assets/tank_beach/Tank_Beach_Combat_1.json",
+            atlas: "assets/tank_beach/Tank_Beach_Combat_1.atlas",
+            skin: "default"
+        },
+        "melee_beach": {
+            json: "assets/melee_beach/Melee_Beach_Combat_1.json",
+            atlas: "assets/melee_beach/Melee_Beach_Combat_1.atlas",
+            skin: "default"
+        },
+        "ranged_beach": {
+            json: "assets/ranged_beach/Ranged_Beach_Combat_1.json",
+            atlas: "assets/ranged_beach/Ranged_Beach_Combat_1.atlas",
+            skin: "default"
+        },
+        "boss_beach": {
+            json: "assets/boss_beach/BossBeach_Combat_1.json",
+            atlas: "assets/boss_beach/Boss_Beach_Combat_1.atlas",
+            skin: "default"
+
+
+        },
         "denis": {
             json: "assets/denis/01_Denis_Combat.json",
             atlas: "assets/denis/01_Denis_Combat.atlas",
             skin: "battle"
-        }   
+        },
+        "helena": {
+            json: "assets/helena/02_Helena_Combat.json",
+            atlas: "assets/helena/02_Helena_Combat.atlas",
+            skin: "battle"
+        },
+        "beatrice": {
+            json: "assets/beatrice/03_Beatrice_Combat.json",
+            atlas: "assets/beatrice/03_Beatrice_Combat.atlas",
+            skin: "battle"
+        },
+        "margaret": {
+            json: "assets/margaret/04_Margaret_Combat.json",
+            atlas: "assets/margaret/04_Margaret_Combat.atlas",
+            skin: "battle"
+        },
+        "florence": {
+            json: "assets/florence/05_Florence_Combat.json",
+            atlas: "assets/florence/05_Florence_Combat.atlas",
+            skin: "battle"
+        },
+        "mary": {
+            json: "assets/mary/06_Mary_Combat.json",
+            atlas: "assets/mary/06_Mary_Combat.atlas",
+            skin: "battle"
+        }
     };
 
     let spinePlayer = null;
