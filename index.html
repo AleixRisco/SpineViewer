@@ -155,18 +155,18 @@
             skin: "default"
         },
         "tank_green": {
-            json: "assets/green_green/Tank_Green_Combat_1.json",
-            atlas: "assets/green_green/Tank_Green_Combat_1.atlas",
+            skel: "assets/tank_green/Tank_Green_Combat_1.skel.bytes",
+            atlas: "assets/tank_green/Tank_Green_Combat_1.atlas.txt",
             skin: "default"
         },
         "melee_green": {
-            json: "assets/melee_green/Melee_Green_Combat_1.json",
-            atlas: "assets/melee_green/Melee_Green_Combat_1.atlas",
+            skel: "assets/melee_green/Melee_Green_Combat_1.skel.bytes",
+            atlas: "assets/melee_green/Melee_Green_Combat_1.atlas.txt",
             skin: "default"
         },
         "ranged_green": {
-            json: "assets/ranged_green/Ranged_Green_Combat_1.json",
-            atlas: "assets/ranged_green/Ranged_Green_Combat_1.atlas",
+            skel: "assets/ranged_green/Ranged_Green_Combat_1.skel.bytes",
+            atlas: "assets/ranged_green/Ranged_Green_Combat_1.atlas.txt",
             skin: "default"
         },
 
@@ -232,8 +232,7 @@
 
         if (spinePlayer) spinePlayer.dispose();
 
-        spinePlayer = new spine.SpinePlayer("player", {
-            jsonUrl: char.json,
+        const playerConfig = {
             atlasUrl: char.atlas,
             showControls: true,
             backgroundColor: "#666666",
@@ -245,21 +244,29 @@
             success: function (player) {
 
                 // SKIN
-        try {
-            player.skeleton.setSkinByName("skin/battle");
-            player.skeleton.setSlotsToSetupPose();
-        } catch (e) {
-            console.error("Skin no encontrada:", e);
+                try {
+                    player.skeleton.setSkinByName("skin/battle");
+                    player.skeleton.setSlotsToSetupPose();
+                } catch (e) {
+                    console.error("Skin no encontrada:", e);
+                }
+
+                // ANIMACIÓN
+                try {
+                    player.setAnimation("Skill_Special", true);
+                } catch (e) {
+                    console.error("Animación no encontrada:", e);
+                }
+            }
+        };
+
+        if (char.skel) {
+            playerConfig.skelUrl = char.skel;
+        } else {
+            playerConfig.jsonUrl = char.json;
         }
 
-        // ANIMACIÓN
-        try {
-            player.setAnimation("Skill_Special", true); 
-        } catch (e) {
-            console.error("Animación no encontrada:", e);
-        }
-    }
-});
+        spinePlayer = new spine.SpinePlayer("player", playerConfig);
     }
 
     // Cargar personaje al hacer clic en el lateral
